@@ -16,8 +16,8 @@ vector<Item> items(0);
 
 class Customer
 {
-  //Customer class, contains the customerID.
   public:
+  //the Customer Setter
     Customer(int new_customerID, string new_name, string new_address, string new_city,
               string new_state, string new_zipcode, string new_phone, string new_email) :
               customerID{new_customerID}, name{new_name}, address{new_address}, city{new_city},
@@ -28,6 +28,7 @@ class Customer
             address + "\n" + city + ", " + state + " " + zipcode;
     }
 
+  //The Getter for the Customer Information
     int getID() {
       //Returns the customerID
         return customerID;
@@ -35,6 +36,7 @@ class Customer
 
 
   private:
+  //private attributes used by Customer Class.
     int customerID;
     string name;
     string address;
@@ -48,9 +50,11 @@ class Customer
 class Item
 {
   public:
+  //The Item Setter
   Item (int new_itemID, string new_description, double new_price) :
        itemID{new_itemID}, description{new_description}, price{new_price}{}
-  
+
+  //The Item Getter, retreives all the items information
   int getID(){
     //Returns the itemID
     return itemID;
@@ -92,9 +96,6 @@ void read_customers(string filename)
   };
 }
 
-//     customers.push_back(new Customer(std::stoi(pieces.at(0)), pieces.at(1), pieces.at(2), pieces.at(3),
-//                                      pieces.at(4), pieces.at(5), pieces.at(6), pieces.at(7)));
-// }
 
 void read_items(string filename)
 {
