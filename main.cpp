@@ -6,114 +6,77 @@
 #include <fstream>
 #include <string>
 #include <vector>
+
 #include "split.h"
+#include "Customer.cpp"
+#include "Item.cpp"
 using namespace std;
 
 
+//Customers vector, holds customer Objects
+vector<Customer>customers;
+//Items vector, holds item Objects
+vector<Item>items;
 
-class Customer
-{
-  public:
-  //the Customer Setter
-    Customer(int new_customerID, string new_name, string new_address, string new_city,
-              string new_state, string new_zipcode, string new_phone, string new_email) :
-              customerID{new_customerID}, name{new_name}, address{new_address}, city{new_city},
-              state{new_state}, zipcode{new_zipcode}, phone{new_phone}, email{new_email}{}
-    string print_detail () const {
-        return "Customer ID #" + std::to_string(customerID) + ":\n" +
-            name + ", ph. " + phone + ", email: " + email + "\n" +
-            address + "\n" + city + ", " + state + " " + zipcode;
-    }
-
-  //The Getter for the Customer Information
-    int getID() {
-      //Returns the customerID
-        return customerID;
-    }
-
-
-  private:
-  //private attributes used by Customer Class.
-    int customerID;
-    string name;
-    string address;
-    string city;
-    string state;
-    string zipcode;
-    string phone;
-    string email;
-};
-
-class Item
-{
-  public:
-  //The Item Setter
-    Item (int new_itemID, string new_description, double new_price) :
-        itemID{new_itemID}, description{new_description}, price{new_price}{}
-
-    //The Item Getter, retreives all the items information
-    int getID(){
-      //Returns the itemID
-      return itemID;
-    }
-
-    string getDescription(){
-      //Returns the item's description
-      return description;
-    }
-
-    double getPrice(){
-      //Returns the item's price
-      return price;
-    }
-
-  private:
-    int itemID;
-    string description;
-    double price;
-};
-
-//Creating the customer vector
-vector<Customer*>customers(0);
-//Creating the item vector
-vector<Item*>items(0);
-
-
+//Reads the customers into the vector customers
 void read_customers(string filename)
-{//Reads the customers into the vector customers
-  ifstream file(filename);
-  string str;
-  while (getline(file, str))
-  {
-    vector<string> section = split(str, ','); //spliting the line into sections based off the ','
-    customers.push_back(//pushing the new Customer Object in the customers vector
-      new Customer(
-            stoi(
-            section.at(0)), //customerID
-            section.at(1),  //customers name
-            section.at(2), //customers address
-            section.at(3), // customers city
-            section.at(4), // customers state
-            section.at(5), // customers zipcode
-            section.at(6), // customers phone number
-            section.at(7))); // customers email
-  };
-}
-
-
-//!TODO Add item to items vector with pushback 
-void read_items(string filename)
 {
+  string line;
+  Customer currCustomer;
   ifstream file(filename);
-  string str;
-  while (getline(file, str))
-  {
-    vector<string> section = split(str, ',');
+  if (file.is_open()){
+    while (getline(file,line))
+    {
+      vector<string> section = split(line, ',');
+      currCustomer.setCustomer(
+        stoi(section.at(0)), //CustomerID
+        section.at(1), //Customer Name
+        section.at(2), //Customer Address
+        section.at(3), //Customer City
+        section.at(4), //Customer State
+        section.at(5), //Customer Zipcode
+        section.at(6), //Customer Phone Number
+        section.at(7) //Customer Email
+      );
+      customers.push_back(currCustomer);
+    }
+    file.close();
+    cout << "Customer Count: " << customers.size() << endl;
+  }
+  else{
+    cout << "Could not open file: " << filename << endl;
   }
 }
 
+//Reads the item into the vector items
+void read_items(string filename)
+{
+  string line;
+  Item currItem;
+  ifstream file(filename);
+  if (file.is_open()){
+    while (getline(file,line))
+    {
+      vector<string> section = split(line, ',');
+      currItem.setItem(
+        stoi(section.at(0)), //ItemID
+        section.at(1), //Item Description
+        stod(section.at(2)) // Item Price
+      );
+      items.push_back(currItem);
+    }
+    file.close();
+    cout << "Item Count: "<< items.size() << endl;
+  }
+  else{
+    cout << "Could not open file: " << filename << endl;
+  }
+}
+
+
 int main()
 {
-  read_customers("customers.txt");
-  read_items("items.txt");
+  read_customers("D:/School/C++/GroceryStore/customers.txt");
+  read_items("D:/School/C++/GroceryStore/items.txt");
+  return 0;
 }
