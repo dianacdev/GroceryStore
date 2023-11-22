@@ -9,10 +9,7 @@
 #include "split.h"
 using namespace std;
 
-//Creating the customer vector
-vector<Customer> customers(0);
-//Creating the item vector
-vector<Item> items(0);
+
 
 class Customer
 {
@@ -51,24 +48,24 @@ class Item
 {
   public:
   //The Item Setter
-  Item (int new_itemID, string new_description, double new_price) :
-       itemID{new_itemID}, description{new_description}, price{new_price}{}
+    Item (int new_itemID, string new_description, double new_price) :
+        itemID{new_itemID}, description{new_description}, price{new_price}{}
 
-  //The Item Getter, retreives all the items information
-  int getID(){
-    //Returns the itemID
-    return itemID;
-  }
+    //The Item Getter, retreives all the items information
+    int getID(){
+      //Returns the itemID
+      return itemID;
+    }
 
-  string getDescription(){
-    //Returns the item's description
-    return description;
-  }
+    string getDescription(){
+      //Returns the item's description
+      return description;
+    }
 
-  double getPrice(){
-    //Returns the item's price
-    return price;
-  }
+    double getPrice(){
+      //Returns the item's price
+      return price;
+    }
 
   private:
     int itemID;
@@ -76,27 +73,35 @@ class Item
     double price;
 };
 
+//Creating the customer vector
+vector<Customer*>customers(0);
+//Creating the item vector
+vector<Item*>items(0);
+
+
 void read_customers(string filename)
-{
+{//Reads the customers into the vector customers
   ifstream file(filename);
   string str;
   while (getline(file, str))
   {
-    vector<string> section = split(str, ',');
-    customers.push_back(
-        new Customer(
-            stoi(section.at(0)),
-            section.at(1),
-            section.at(2),
-            section.at(3),
-            section.at(4),
-            section.at(5),
-            section.at(6),
-            section.at(7)));
+    vector<string> section = split(str, ','); //spliting the line into sections based off the ','
+    customers.push_back(//pushing the new Customer Object in the customers vector
+      new Customer(
+            stoi(
+            section.at(0)), //customerID
+            section.at(1),  //customers name
+            section.at(2), //customers address
+            section.at(3), // customers city
+            section.at(4), // customers state
+            section.at(5), // customers zipcode
+            section.at(6), // customers phone number
+            section.at(7))); // customers email
   };
 }
 
 
+//!TODO Add item to items vector with pushback 
 void read_items(string filename)
 {
   ifstream file(filename);
