@@ -8,10 +8,12 @@
 #include <vector>
 
 #include "split.h"
-#include "Customer.cpp"
-#include "Item.cpp"
+#include "Class/Customer.cpp" //Holds the customer class
+#include "Class/Item.cpp" //Holds the item class
 using namespace std;
 
+string customers_filePath = "D:/School/C++/GroceryStore/customers.txt";
+string items_filePath = "D:/School/C++/GroceryStore/items.txt";
 
 //Customers vector, holds customer Objects
 vector<Customer>customers;
@@ -73,10 +75,54 @@ void read_items(string filename)
   }
 }
 
+//Checks if customerID exists
+int find_customerID(int customerID){
+  for (int i = 0; i < customers.size(); i++){
+    if(customers.at(i).GetID() != customerID){
+      if(i+1 == customers.size()){
+        cout << "CustomerID: " << customerID <<"not found!" << endl;
+        return 1;
+      }
+    }
+    else{
+        cout << "CustomerID: " << customerID << " found!"<< endl;
+        return 0;
+    }
+  }
+}
+
+//Checks if itemID exists
+int find_itemID(int itemID){
+  for(int i = 0; i < items.size(); i++){
+    if(items.at(i).GetID() != itemID){
+      if(i+1 == items.size()){
+        cout << "ItemID: " << itemID << " not found!" <<endl;
+        return 1;
+      }
+    }
+    else{
+      cout << "ItemID: " << itemID << " found!" << endl;
+      return 0;
+    }
+  }
+}
+
+
 
 int main()
 {
-  read_customers("D:/School/C++/GroceryStore/customers.txt");
-  read_items("D:/School/C++/GroceryStore/items.txt");
+  read_customers(customers_filePath);
+  read_items(items_filePath);
+
+  int customerID;
+  int itemID;
+
+  cout << "Enter a Customer ID: ";
+  cin >> customerID;
+  find_customerID(customerID);
+  
+  cout << "Enter a Item ID: ";
+  cin >> itemID;
+  find_itemID(itemID);
   return 0;
 }

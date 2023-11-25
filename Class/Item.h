@@ -8,6 +8,8 @@ class Item {
     public:
         void setItem(int itemID, string description, double price);
 
+        int GetID() const;
+
     private:
         int itemID;
         string description;

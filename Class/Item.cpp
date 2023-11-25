@@ -1,3 +1,4 @@
+//Holds the Functions for Item Class
 #include "Item.h"
 #include <string>
 using namespace std;
@@ -10,3 +11,7 @@ void Item::setItem(
       description = new_description;
       price = new_price;
     };
+
+int Item:: GetID() const{
+  return itemID;
+};
