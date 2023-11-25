@@ -155,8 +155,6 @@ int find_itemID(vector<Item> order){
   }
 }
 
-
-
 //A Customer's Order
 void one_customer_order(vector<Item> order){
   int customerID;

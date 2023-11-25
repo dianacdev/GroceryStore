@@ -9,7 +9,7 @@ Reads in the following files:
 
 ## Classes
 
-### Customer
+### Customer Class
 
 #### Customer Attributes
 
@@ -28,7 +28,28 @@ Reads in the following files:
 
 #### Customer Functions
 
-### Item
+##### setCustomer()
+
+This is a setter function used to create a new customer Object.
+
+###### setCustomer() Parameters
+
+|Name|Type|Required|
+|----|----|----|
+|new_customerID|integer| Yes|
+|new_name|string| Yes|
+|new_address|string| Yes|
+|new_city|string| Yes|
+|new_state|string| Yes|
+|new_zipcode|string| Yes|
+|new_phone|string| Yes|
+|new_email|string| Yes|
+
+##### Customer GetID()
+
+Returns the customerID
+
+### Item Class
 
 #### Item Attributes
 
@@ -40,3 +61,29 @@ Reads in the following files:
   - This is the item's price, using type double for precision.
 
 #### Item Functions
+
+##### setItem()
+
+This is a setter function used to create a new item Object.
+
+###### setItem() Parameters
+
+|Name|Type|Required|
+|----|----|----|
+|new_itemID|integer| Yes|
+|new_description|string| Yes|
+|new_price|double| Yes|
+
+##### Item GetID()
+
+Returns the itemID
+
+##### Item GetDescription()
+
+Returns the item's description
+
+##### Item GetPrice()
+
+Returns the item's price
+
+Created By Diana Cervantes 2023.
