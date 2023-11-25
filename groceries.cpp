@@ -1,24 +1,31 @@
 // Online Grocery
-// Reads customer.txt, and items.txt then displays the records of the customer.
+// Allows a customer to order groceries.
 // Created By Diana Cervantes
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 
 #include "split.h"
 #include "Class/Customer.cpp" //Holds the customer class
 #include "Class/Item.cpp" //Holds the item class
 using namespace std;
 
-string customers_filePath = "D:/School/C++/GroceryStore/customers.txt";
-string items_filePath = "D:/School/C++/GroceryStore/items.txt";
+string customers_filePath = "D:/School/C++/GroceryStore/data/customers.txt";
+string items_filePath = "D:/School/C++/GroceryStore/data/items.txt";
+
+const int ITEMDESC_COL_WIDTH = 5;
+const int PRICE_COL_WIDTH = 10;
 
 //Customers vector, holds customer Objects
 vector<Customer>customers;
 //Items vector, holds item Objects
 vector<Item>items;
+//Holds the items in a single order
+vector<Item> order;
 
 //Reads the customers into the vector customers
 void read_customers(string filename)
@@ -75,33 +82,74 @@ void read_items(string filename)
   }
 }
 
+//Formats the items and price, also prints the orders total price
+string ItemPriceTable(vector<Item> order){
+    ostringstream outSS;
+    double order_total;
+    outSS << fixed << setprecision(2);
+    outSS << setw(ITEMDESC_COL_WIDTH) << "Item(s)"
+          << setw(PRICE_COL_WIDTH) << "Price"<< endl;
+    for(int i = 0; i < order.size(); i++){
+      outSS << setw(ITEMDESC_COL_WIDTH) << order.at(i).GetDescription() 
+            << setw(PRICE_COL_WIDTH) << " $"<< order.at(i).GetPrice() << endl;
+      order_total += order.at(i).GetPrice();
+    }
+    outSS << "Order Total: $" << order_total << endl;
+    return outSS.str();
+}
+
+//Prints the order
+void print_order(vector <Item> order){
+    string table = ItemPriceTable(order);
+    cout << "\nOrder: " << endl;
+    cout << "Total Amount of Items: " << order.size() << endl;
+    cout << table << endl;
+}
+
 //Checks if customerID exists
 int find_customerID(int customerID){
   for (int i = 0; i < customers.size(); i++){
     if(customers.at(i).GetID() != customerID){
       if(i+1 == customers.size()){
-        cout << "CustomerID: " << customerID <<"not found!" << endl;
+        cout << "CustomerID: " << customerID <<" not found!\n" << endl;
         return 1;
       }
     }
     else{
-        cout << "CustomerID: " << customerID << " found!"<< endl;
+        cout << "CustomerID: " << customerID << " found!\n"<< endl;
         return 0;
     }
   }
 }
 
 //Checks if itemID exists
-int find_itemID(int itemID){
+int find_itemID(vector<Item> order){
+  int itemID;
+  ostringstream itemSS;
+
+  cout << "Enter a item's ID: ";
+  cin >> itemID;
+
+  if(itemID == 0){
+    print_order(order);
+    return 0;
+  } 
   for(int i = 0; i < items.size(); i++){
     if(items.at(i).GetID() != itemID){
       if(i+1 == items.size()){
         cout << "ItemID: " << itemID << " not found!" <<endl;
+        find_itemID(order);
         return 1;
       }
     }
     else{
-      cout << "ItemID: " << itemID << " found!" << endl;
+      itemSS << fixed << setprecision(2);
+      itemSS << setw(ITEMDESC_COL_WIDTH) << items.at(i).GetDescription() 
+              << setw(PRICE_COL_WIDTH) << " $" << items.at(i).GetPrice() << endl;
+      string itemStr = itemSS.str();
+      cout << itemStr << endl;
+      order.push_back(items.at(i));
+      find_itemID(order);
       return 0;
     }
   }
@@ -109,20 +157,22 @@ int find_itemID(int itemID){
 
 
 
+//A Customer's Order
+void one_customer_order(vector<Item> order){
+  int customerID;
+  cout << "Enter a Customer's ID: ";
+  cin >> customerID;
+  if (find_customerID(customerID) == 0){
+    find_itemID(order);
+  }
+}
+
 int main()
 {
   read_customers(customers_filePath);
   read_items(items_filePath);
+  cout << endl; // used for some additional spacing!
+  one_customer_order(order);
 
-  int customerID;
-  int itemID;
-
-  cout << "Enter a Customer ID: ";
-  cin >> customerID;
-  find_customerID(customerID);
-  
-  cout << "Enter a Item ID: ";
-  cin >> itemID;
-  find_itemID(itemID);
   return 0;
 }

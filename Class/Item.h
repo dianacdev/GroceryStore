@@ -9,6 +9,8 @@ class Item {
         void setItem(int itemID, string description, double price);
 
         int GetID() const;
+        string GetDescription() const;
+        double GetPrice() const;
 
     private:
         int itemID;

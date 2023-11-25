@@ -15,3 +15,11 @@ void Item::setItem(
 int Item:: GetID() const{
   return itemID;
 };
+
+string Item:: GetDescription() const{
+  return description;
+}
+
+double Item:: GetPrice() const{
+  return price;
+}
