@@ -10,8 +10,8 @@
 #include <iomanip>
 
 #include "split.h"
-#include "Class/Customer.cpp" //Holds the customer class
-#include "Class/Item.cpp" //Holds the item class
+#include "class/Customer.cpp" //Holds the customer class
+#include "class/Item.cpp" //Holds the item class
 using namespace std;
 
 string customers_filePath = "D:/School/C++/GroceryStore/data/customers.txt";
@@ -28,7 +28,7 @@ vector<Item>items;
 vector<Item> order;
 
 //Reads the customers into the vector customers
-void read_customers(string filename)
+int read_customers(string filename)
 {
   string line;
   Customer currCustomer;
@@ -51,14 +51,16 @@ void read_customers(string filename)
     }
     file.close();
     cout << "Customer Count: " << customers.size() << endl;
+    return customers.size();
   }
   else{
     cout << "Could not open file: " << filename << endl;
+    return 1;
   }
 }
 
 //Reads the item into the vector items
-void read_items(string filename)
+int read_items(string filename)
 {
   string line;
   Item currItem;
@@ -76,10 +78,13 @@ void read_items(string filename)
     }
     file.close();
     cout << "Item Count: "<< items.size() << endl;
+    return items.size();
   }
   else{
     cout << "Could not open file: " << filename << endl;
+    return 1;
   }
+  return 0;
 }
 
 //Formats the items and price, also prints the orders total price
@@ -120,6 +125,7 @@ int find_customerID(int customerID){
         return 0;
     }
   }
+      return 0;
 }
 
 //Checks if itemID exists
@@ -153,6 +159,7 @@ int find_itemID(vector<Item> order){
       return 0;
     }
   }
+  return 0;
 }
 
 //A Customer's Order
