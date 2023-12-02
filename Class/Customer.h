@@ -11,6 +11,8 @@ class Customer{
 
         int GetID() const;
 
+        string print_detail() const;
+
     private:
         int customerID;
         string name;

@@ -20,3 +20,10 @@ void Customer::setCustomer(
 int Customer::GetID() const{
   return customerID;
 };
+
+string Customer:: print_detail() const{
+  cout << "Customer Info:" << endl;
+  cout << "Customer ID: #" << customerID << endl;
+  cout << name << ", ph. " << phone << ", email: " << email << endl;
+  cout << address << endl << city << ", " << state << " " << zipcode << endl;
+};

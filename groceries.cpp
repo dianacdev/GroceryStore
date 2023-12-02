@@ -17,6 +17,7 @@ using namespace std;
 string customers_filePath = "D:/School/C++/GroceryStore/data/customers.txt";
 string items_filePath = "D:/School/C++/GroceryStore/data/items.txt";
 
+const int ITEMID_COL_WIDTH = 5;
 const int ITEMDESC_COL_WIDTH = 5;
 const int PRICE_COL_WIDTH = 10;
 
@@ -92,10 +93,12 @@ string ItemPriceTable(vector<Item> order){
     ostringstream outSS;
     double order_total;
     outSS << fixed << setprecision(2);
-    outSS << setw(ITEMDESC_COL_WIDTH) << "Item(s)"
-          << setw(PRICE_COL_WIDTH) << "Price"<< endl;
+    outSS << setw(ITEMID_COL_WIDTH)
+          << setw(ITEMDESC_COL_WIDTH) 
+          << setw(PRICE_COL_WIDTH) << endl;
     for(int i = 0; i < order.size(); i++){
-      outSS << setw(ITEMDESC_COL_WIDTH) << order.at(i).GetDescription() 
+      outSS << setw(ITEMID_COL_WIDTH) << "Item " << order.at(i).GetID() << ": "
+            << setw(ITEMDESC_COL_WIDTH) << order.at(i).GetDescription() << ", "
             << setw(PRICE_COL_WIDTH) << " $"<< order.at(i).GetPrice() << endl;
       order_total += order.at(i).GetPrice();
     }
@@ -106,7 +109,7 @@ string ItemPriceTable(vector<Item> order){
 //Prints the order
 void print_order(vector <Item> order){
     string table = ItemPriceTable(order);
-    cout << "\nOrder: " << endl;
+    cout << "\nOrder Detail: " << endl;
     cout << "Total Amount of Items: " << order.size() << endl;
     cout << table << endl;
 }
